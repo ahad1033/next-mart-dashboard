@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { LeftSideBar } from "@/components/layout/LeftSideBar";
 import { TopBar } from "@/components/layout/TopBar";
+import { ToasterProdiver } from "@/lib/ToasterProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ToasterProdiver />
         <div className="flex max-lg:flex-col text-gray-1">
           <LeftSideBar />
           <TopBar />

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { string } from "zod";
 
 const collectionSchema = new mongoose.Schema({
   title: {
@@ -12,7 +11,7 @@ const collectionSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: string,
+    type: String,
     required: true,
   },
   products: [
