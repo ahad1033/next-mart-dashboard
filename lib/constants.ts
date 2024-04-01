@@ -1,4 +1,3 @@
-import React from "react";
 import { MdDashboardCustomize } from "react-icons/md";
 import { FaBox, FaUser } from "react-icons/fa";
 import { FaTag, FaShoppingBag } from "react-icons/fa";
