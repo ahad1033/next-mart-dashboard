@@ -62,8 +62,8 @@ export const CollectionForm = () => {
 
   return (
     <div className="p-10">
-      <p className="text-heading-bold">Create Collection</p>
-      <Separator className="bg-gray-1 my=t-4 mb-7" />
+      <p className="text-heading1-bold">Create Collection</p>
+      <Separator className="bg-grey-1 my=t-4 mb-7" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

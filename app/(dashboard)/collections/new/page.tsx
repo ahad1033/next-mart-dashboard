@@ -1,5 +1,7 @@
 import { CollectionForm } from "@/components/collection/CollectionForm";
 
-export const CreateCollection = () => {
+const CreateCollection = () => {
   return <CollectionForm />;
 };
+
+export default CreateCollection;
