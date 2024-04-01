@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+// Define form validation schema using Zod
 const formSchema = z.object({
   title: z.string().min(3).max(20),
   description: z.string().min(20).max(300),
@@ -31,9 +32,9 @@ const formSchema = z.object({
 
 export const CollectionForm = () => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
+  // Initialize form with useForm hook and apply validation schema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,17 +44,18 @@ export const CollectionForm = () => {
     },
   });
 
+  // handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-        setLoading(true);
-        const res = await fetch("/api/collections", {
-            method: "POST",
-            body: JSON.stringify(values),
-        });
-        if (res.ok) {
-          toast.success("Collection created");
-          router.push("/collections");
-        } 
+      setLoading(true);
+      const res = await fetch("/api/collections", {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+      if (res.ok) {
+        toast.success("Collection created");
+        router.push("/collections");
+      }
     } catch (err) {
       console.log("[collection-post]", err);
       toast.error("Something went wrong! Please try again.");
