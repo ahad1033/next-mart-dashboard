@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import { DataTable } from "@/components/custom ui/DataTable";
+import { columns } from "./CollectionColumns";
+
 const Collections = () => {
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
@@ -19,12 +22,14 @@ const Collections = () => {
     }
   };
 
-  console.log("collections", collections);
-
   useEffect(() => {
     getCollections();
   }, []);
-  return <div>Collection</div>;
+  return (
+    <div>
+      <DataTable columns={columns} data={collections} />
+    </div>
+  );
 };
 
 export default Collections;
