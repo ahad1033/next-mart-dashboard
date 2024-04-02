@@ -1,7 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Collection } from "mongoose";
+
 import { CollectionForm } from "@/components/collection/CollectionForm";
 import Loader from "@/components/custom ui/Loader";
-import { Collection } from "mongoose";
-import { useEffect, useState } from "react";
 
 const CollectionDetails = ({
   params,
@@ -31,7 +34,11 @@ const CollectionDetails = ({
     getCollectionDetails();
   }, []);
 
-  return loading ? <Loader /> : <CollectionForm initialData={collectionDetails} />;
+  return loading ? (
+    <Loader />
+  ) : (
+    <CollectionForm initialData={collectionDetails} />
+  );
 };
 
 export default CollectionDetails;

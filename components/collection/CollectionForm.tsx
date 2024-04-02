@@ -7,8 +7,9 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-import { Textarea } from "../ui/textarea";
+import Delete from "../custom ui/Delete";
 import { ImageUpload } from "../custom ui/ImageUpload";
+import { Textarea } from "../ui/textarea";
 import { Separator } from "../ui/separator";
 
 import { Input } from "@/components/ui/input";
@@ -39,6 +40,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 }) => {
   const router = useRouter();
   const params = useParams();
+  const id = params.collectionId
 
   const [loading, setLoading] = useState(false);
 
@@ -58,11 +60,15 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      const url = initialData ? `/api/collections/${params._id}` : "/api/collections";
+      const url = initialData
+        ? `/api/collections/${id}`
+        : "/api/collections";
       const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(values),
       });
+
+      console.log("rssss", res);
       if (res.ok) {
         toast.success(`Collection ${initialData ? "updated" : "created"}`);
         window.location.href = "/collections";
@@ -76,7 +82,15 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 
   return (
     <div className="p-10">
-      <p className="text-heading1-bold">Create Collection</p>
+      {initialData ? (
+        <div className="flex items-center justify-between">
+          <p className="text-heading1-bold">Edit Collection</p>
+          <Delete id={initialData._id} />
+        </div>
+      ) : (
+        <p className="text-heading1-bold">Create Collection</p>
+      )}
+
       <Separator className="bg-grey-1 my=t-4 mb-7" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
