@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -30,30 +30,42 @@ const formSchema = z.object({
   image: z.string(),
 });
 
-export const CollectionForm = () => {
+interface CollectionFormProps {
+  initialData?: CollectionType | null;
+}
+
+export const CollectionForm: React.FC<CollectionFormProps> = ({
+  initialData,
+}) => {
   const router = useRouter();
+  const params = useParams();
+
   const [loading, setLoading] = useState(false);
 
   // Initialize form with useForm hook and apply validation schema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      image: "",
-    },
+    defaultValues: initialData
+      ? initialData
+      : {
+          title: "",
+          description: "",
+          image: "",
+        },
   });
 
   // handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      const res = await fetch("/api/collections", {
+      const url = initialData ? `/api/collections/${params._id}` : "/api/collections";
+      const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(values),
       });
       if (res.ok) {
-        toast.success("Collection created");
+        toast.success(`Collection ${initialData ? "updated" : "created"}`);
+        window.location.href = "/collections";
         router.push("/collections");
       }
     } catch (err) {
