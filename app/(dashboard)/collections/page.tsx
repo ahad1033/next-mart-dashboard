@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 
 import { DataTable } from "@/components/custom ui/DataTable";
 import { columns } from "./CollectionColumns";
+import { Button } from "@/components/ui/button";
+
+import { FaPlus } from "react-icons/fa6";
+import { Separator } from "@/components/ui/separator";
 
 const Collections = () => {
   const [loading, setLoading] = useState(true);
@@ -26,8 +30,16 @@ const Collections = () => {
     getCollections();
   }, []);
   return (
-    <div>
-      <DataTable columns={columns} data={collections} />
+    <div className="roundec-md border">
+      <div className="flex items-center justify-between">
+        <p className="text-heading2-bold">Collection</p>
+        <Button className="bg-blue-1 text-white">
+          <FaPlus className="h-4 w-4 mr-2" />
+          Create Collection
+        </Button>
+      </div>
+      <Separator className="bg-grey-1 my-4" />
+      <DataTable columns={columns} data={collections} searchKey="title" />
     </div>
   );
 };
