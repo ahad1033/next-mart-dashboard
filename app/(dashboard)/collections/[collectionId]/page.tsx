@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Collection } from "mongoose";
 
-import { CollectionForm } from "@/components/collection/CollectionForm";
 import Loader from "@/components/custom ui/Loader";
+import CollectionForm from "@/components/collection/CollectionForm";
 
 const CollectionDetails = ({
   params,
@@ -12,9 +11,8 @@ const CollectionDetails = ({
   params: { collectionId: string };
 }) => {
   const [loading, setLoading] = useState(true);
-  const [collectionDetails, setCollectionDetails] = useState<Collection | null>(
-    null
-  );
+  const [collectionDetails, setCollectionDetails] =
+    useState<CollectionType | null>(null);
 
   const getCollectionDetails = async () => {
     try {
