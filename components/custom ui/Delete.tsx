@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { LuTrash } from "react-icons/lu";
 import toast from "react-hot-toast";
@@ -17,29 +18,32 @@ import {
 import { Button } from "../ui/button";
 
 interface DeleteProps {
+  item: string;
   id: string;
 }
 
-const Delete: React.FC<DeleteProps> = ({ id }) => {
+const Delete: React.FC<DeleteProps> = ({ item, id }) => {
   const [loading, setLoading] = useState(false);
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/collections/${id}`, {
+      const itemType = item === "product" ? "products" : "collections";
+      const res = await fetch(`/api/${itemType}/${id}`, {
         method: "DELETE",
       });
+
       if (res.ok) {
-        window.location.href = "/collections";
-        toast.success("Collection deleted");
-      } else {
-        toast.error("Failed to delete collection");
+        setLoading(false);
+        window.location.href = `/${itemType}`;
+        toast.success(`${item} deleted`);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong, please try again later");
+      toast.error("Something went wrong! Please try again.");
     }
   };
+
   return (
     <>
       <AlertDialog>
