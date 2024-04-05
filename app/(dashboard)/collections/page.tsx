@@ -15,6 +15,8 @@ const Collections = () => {
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
 
+  console.log("collections", collections);
+
   const getCollections = async () => {
     try {
       const res = await fetch("/api/collections", {

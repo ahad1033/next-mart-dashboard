@@ -11,6 +11,8 @@ import Delete from "../custom ui/Delete";
 import { ImageUpload } from "../custom ui/ImageUpload";
 import { Textarea } from "../ui/textarea";
 import { Separator } from "../ui/separator";
+import MultiText from "../custom ui/MultiText";
+import MultiSelect from "../custom ui/MultiSelect";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -48,6 +50,26 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const id = params.collectionId;
 
   const [loading, setLoading] = useState(false);
+  const [collections, setCollections] = useState<CollectionType[]>([]);
+
+  console.log(collections);
+
+  const getCollection = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/collections", {
+        method: "GET",
+      });
+      const data = await res.json();
+
+      console.log(data)
+      setCollections(data);
+      setLoading(false);
+    } catch (error) {
+      console.log("[collections_GET]", error);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
 
   // Initialize form with useForm hook and apply validation schema
   const form = useForm<z.infer<typeof formSchema>>({
@@ -58,13 +80,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           title: "",
           description: "",
           media: [],
-          category: "",
-          collections: "",
-          tags: [],
-          sizes: [],
-          colors: [],
-          price: 0.1,
-          expense: 0.1,
+          price: "",
+          // collections: "",
+          // tags: [],
+          // sizes: [],
+          // colors: [],
+          // price: 0.1,
+          // expense: 0.1,
         },
   });
 
@@ -227,21 +249,56 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-          </div>
 
-          <FormField
-            control={form.control}
-            name="tags"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tags</FormLabel>
-                <FormControl>
-                  
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <MultiText
+                      placeholder="Tags"
+                      value={field.value}
+                      onChange={(tag) => field.onChange([...field.value, tag])}
+                      onRemove={(tagToRemove) =>
+                        field.onChange([
+                          ...field.value.filter((tag) => tag !== tagToRemove),
+                        ])
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="collections"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Collections</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      placeholder="Collections"
+                      collections={collections}
+                      value={field.value}
+                      onChange={(_id) => field.onChange([...field.value, _id])}
+                      onRemove={(idToRemove) =>
+                        field.onChange([
+                          ...field.value?.filter(
+                            (collectionId) => collectionId !== idToRemove
+                          ),
+                        ])
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="flex gap-10">
             <Button type="submit" className="bg-blue-1 text-white">

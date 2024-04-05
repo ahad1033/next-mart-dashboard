@@ -6,10 +6,10 @@ const ProductSchema = new mongoose.Schema(
     description: String,
     media: [String],
     category: String,
-    collections: [{ type: mongoose.Schema.Types.ObjectId, ref: "Collection " }],
+    collections: [{ type: mongoose.Schema.Types.ObjectId, ref: "Collection" }],
     tags: [String],
     sizes: [String],
-    color: [String],
+    colors: [String],
     price: {
       type: mongoose.Schema.Types.Decimal128,
       get: (v: mongoose.Schema.Types.Decimal128) => {
