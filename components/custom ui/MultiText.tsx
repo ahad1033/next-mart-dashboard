@@ -3,10 +3,8 @@ import React, { useState } from "react";
 
 import { Input } from "../ui/input";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 
 import { RxCross2 } from "react-icons/rx";
-
 
 interface MultiTextProps {
   placeholder: string;
@@ -46,13 +44,12 @@ const MultiText: React.FC<MultiTextProps> = ({
         {value.map((tag, index) => (
           <Badge key={index} className="bg-grey-1 roundec-xl outline-none">
             {tag}
-            <Button
-              size="sm"
+            <button
               className="ml-1 rounded-full outline-none hover:bg-red-1"
               onClick={() => onRemove(tag)}
             >
               <RxCross2 className="h-3 w-3" />
-            </Button>
+            </button>
           </Badge>
         ))}
       </div>

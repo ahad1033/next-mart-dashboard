@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/command";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
-import { X } from "lucide-react";
+import { RxCross2 } from "react-icons/rx";
 
 interface MultiSelectProps {
   placeholder: string;
@@ -35,28 +35,30 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
   let selected: CollectionType[];
 
-  if (value?.length === 0) {
+  if (value.length === 0) {
     selected = [];
   } else {
-    selected = value?.map((id) =>
-      collections?.find((c) => c._id === id)
+    selected = value.map((id) =>
+      collections?.find((collection) => collection?._id === id)
     ) as CollectionType[];
   }
 
-  const selectables = collections?.filter((c) => !selected.includes(c));
+  const selectables = collections?.filter(
+    (collection) => !selected.includes(collection)
+  );
 
   return (
     <Command className="overflow-visible bg-white">
       <div className="flex gap-1 flex-wrap border rounded-md">
-        {selected.map((c) => (
-          <Badge key={c._id}>
-            {c.title}
+        {selected?.map((collection) => (
+          <Badge key={collection._id}>
+            {collection.title}
             <button
               type="button"
               className="ml-1 hover:text-red-1"
-              onClick={() => onRemove(c._id)}
+              onClick={() => onRemove(collection._id)}
             >
-              <X className="h-3 w-3" />
+              <RxCross2 className="h-3 w-3" />
             </button>
           </Badge>
         ))}
