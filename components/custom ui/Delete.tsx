@@ -59,7 +59,7 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete your
-              collections!
+              {item}!
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -47,7 +47,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(false);
   const [collections, setCollections] = useState<CollectionType[]>([]);
-  console.log("collections", collections);
 
   const getCollections = async () => {
     try {
