@@ -1,14 +1,15 @@
-import Collection from "@/lib/models/Collection";
 import { connectToDB } from "@/lib/mongoDB";
 import { NextRequest, NextResponse } from "next/server";
 
+import Collection from "@/lib/models/Collection";
+
 export const POST = async (req: NextRequest) => {
   try {
-    // const {userId} = auth();
-    const userId = "a1ac5ddsd78b9c9c4";
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 403 });
-    }
+    // const userId = "a1ac5ddsd78b9c9c4";
+
+    // if (!userId) {
+    //   return new NextResponse("Unauthorized", { status: 403 });
+    // }
 
     await connectToDB();
 
@@ -51,3 +52,5 @@ export const GET = async (req: NextRequest) => {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
+
+export const dynamic = "force-dynamic";

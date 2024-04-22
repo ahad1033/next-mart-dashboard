@@ -5,17 +5,16 @@ import { FaPlus } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 
 import { DataTable } from "@/components/custom ui/DataTable";
-import { columns } from "./CollectionColumns";
+import { columns } from "../../../components/collection/CollectionColumns";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Loader from "@/components/custom ui/Loader";
 
 const Collections = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
-
-  console.log("collections", collections);
 
   const getCollections = async () => {
     try {
@@ -33,7 +32,9 @@ const Collections = () => {
   useEffect(() => {
     getCollections();
   }, []);
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="roundec-md border">
       <div className="flex items-center justify-between p-3">
         <p className="text-heading2-bold">Collection</p>

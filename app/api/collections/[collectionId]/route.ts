@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { connectToDB } from "@/lib/mongoDB";
+
 import Collection from "@/lib/models/Collection";
+import Product from "@/lib/models/Product";
 
 export const GET = async (
   req: NextRequest,
@@ -10,7 +12,10 @@ export const GET = async (
   try {
     await connectToDB();
 
-    const collection = await Collection.findById(params.collectionId);
+    const collection = await Collection.findById(params.collectionId).populate({
+      path: "products",
+      model: Product,
+    });
 
     if (!collection) {
       return new NextResponse("Not Found", { status: 404 });
@@ -22,7 +27,10 @@ export const GET = async (
   }
 };
 
-export const POST = async (req: NextRequest, { params }: {params: {collectionId: string}}) => {
+export const POST = async (
+  req: NextRequest,
+  { params }: { params: { collectionId: string } }
+) => {
   try {
     // const userId = "a1ac5ddsd78b9c9c4";
 
@@ -34,27 +42,29 @@ export const POST = async (req: NextRequest, { params }: {params: {collectionId:
 
     let collection = await Collection.findById(params.collectionId);
 
-    if(!collection) {
+    if (!collection) {
       return new NextResponse("Collection not found", { status: 404 });
     }
 
     const { title, description, image } = await req.json();
 
-    if(!title || !image) {
+    if (!title || !image) {
       return new NextResponse("Title and image are required", { status: 400 });
     }
 
-    collection = await Collection.findByIdAndUpdate(params.collectionId, { title, description, image}, { new: true})
+    collection = await Collection.findByIdAndUpdate(
+      params.collectionId,
+      { title, description, image },
+      { new: true }
+    );
 
-    await collection.save()
+    await collection.save();
 
-    return NextResponse.json(collection, { status: 200 })
-
+    return NextResponse.json(collection, { status: 200 });
   } catch (error) {
     console.log("[collectionId_POST]", error);
-    
   }
-}
+};
 
 export const DELETE = async (
   req: NextRequest,
@@ -70,6 +80,11 @@ export const DELETE = async (
     await connectToDB();
 
     await Collection.findByIdAndDelete(params.collectionId);
+
+    await Product.updateMany(
+      { collections: params.collectionId },
+      { $pull: { collections: params.collectionId } }
+    );
 
     return NextResponse.json(
       { message: "Collection is deleted" },

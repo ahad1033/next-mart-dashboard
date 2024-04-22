@@ -1,4 +1,4 @@
-import { CollectionForm } from "@/components/collection/CollectionForm";
+import CollectionForm from "@/components/collection/CollectionForm";
 
 const CreateCollection = () => {
   return <CollectionForm />;

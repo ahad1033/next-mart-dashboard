@@ -48,7 +48,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       <CldUploadWidget uploadPreset="rlz5sssn" onUpload={onUpload}>
         {({ open }) => {
           return (
-            <Button className="bg-grey-1 text-white" onClick={() => open()}>
+            <Button type="button" className="bg-grey-1 text-white" onClick={() => open()}>
               <FaPlus className="h-4 w-4 mr-2" /> Upload Image
             </Button>
           );
